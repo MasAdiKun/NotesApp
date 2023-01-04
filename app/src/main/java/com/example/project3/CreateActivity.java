@@ -31,7 +31,7 @@ import model.Notes;
 public class CreateActivity extends AppCompatActivity {
     DbHelper dbHelper;
     ImageView backButton, deleteButton, saveButton, imageNote;
-    ImageView imageColor1,imageColor2,imageColor3,imageColor4;
+    ImageView imageColor1,imageColor2,imageColor3,imageColor4, imageColor5;
     EditText titleNote,subtitleNote,textNote;
     LinearLayout miscLayout, miscImageLayout;
     TextView dateTime;
@@ -58,7 +58,7 @@ public class CreateActivity extends AppCompatActivity {
         dateTime=findViewById(R.id.textDateTime);
         viewSubtitleIndicator=findViewById(R.id.viewSubtitleIndicator);
         imageNote = findViewById(R.id.imgNote);
-        selectedNoteColor ="#4C4C4C";
+        selectedNoteColor ="#80171C26";
 
         final LinearLayout miscImageLayout = findViewById(R.id.miscImageLayout);
         miscImageLayout.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +83,6 @@ public class CreateActivity extends AppCompatActivity {
                 Intent intent = new Intent(CreateActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-                selectedNoteColor ="#4C4C4C";
-                setViewSubtitleIndicator();
             }
         });
 
@@ -118,8 +116,6 @@ public class CreateActivity extends AppCompatActivity {
                     Intent intent = new Intent(CreateActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();
-                    selectedNoteColor ="#4C4C4C";
-                    setViewSubtitleIndicator();
                     } catch (Exception e){
                         Toast.makeText(getApplicationContext(),"Error: "+e, Toast.LENGTH_SHORT).show();
                     }
@@ -140,17 +136,20 @@ public class CreateActivity extends AppCompatActivity {
         final ImageView imageColor2=miscLayout.findViewById(R.id.imageColor2);
         final ImageView imageColor3=miscLayout.findViewById(R.id.imageColor3);
         final ImageView imageColor4=miscLayout.findViewById(R.id.imageColor4);
+        final ImageView imageColor5=miscLayout.findViewById(R.id.imageColor5);
+
 
 
 
         miscLayout.findViewById(R.id.viewColor1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedNoteColor ="#4C4C4C";
+                selectedNoteColor ="#80171C26";
                 imageColor1.setImageResource(R.drawable.ic_select);
                 imageColor2.setImageResource(0);
                 imageColor3.setImageResource(0);
                 imageColor4.setImageResource(0);
+                imageColor5.setImageResource(0);
                 setViewSubtitleIndicator();
             }
         });
@@ -163,6 +162,7 @@ public class CreateActivity extends AppCompatActivity {
                 imageColor2.setImageResource(R.drawable.ic_select);
                 imageColor3.setImageResource(0);
                 imageColor4.setImageResource(0);
+                imageColor5.setImageResource(0);
                 setViewSubtitleIndicator();
             }
         });
@@ -175,6 +175,7 @@ public class CreateActivity extends AppCompatActivity {
                 imageColor2.setImageResource(0);
                 imageColor3.setImageResource(R.drawable.ic_select);
                 imageColor4.setImageResource(0);
+                imageColor5.setImageResource(0);
                 setViewSubtitleIndicator();
             }
         });
@@ -187,6 +188,20 @@ public class CreateActivity extends AppCompatActivity {
                 imageColor2.setImageResource(0);
                 imageColor3.setImageResource(0);
                 imageColor4.setImageResource(R.drawable.ic_select);
+                imageColor5.setImageResource(0);
+                setViewSubtitleIndicator();
+            }
+        });
+
+        miscLayout.findViewById(R.id.viewColor5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedNoteColor ="#4C4C4C";
+                imageColor1.setImageResource(0);
+                imageColor2.setImageResource(0);
+                imageColor3.setImageResource(0);
+                imageColor4.setImageResource(0);
+                imageColor5.setImageResource(R.drawable.ic_select);
                 setViewSubtitleIndicator();
             }
         });

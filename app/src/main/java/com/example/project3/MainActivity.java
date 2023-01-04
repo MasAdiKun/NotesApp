@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,10 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        notesAdapter = new NotesAdapter( this);
         dbHelper = new DbHelper(this);
         notesArrayList = dbHelper.getAllNotes();
-        notesAdapter = new NotesAdapter( this);
-
 
         notesAdapter.setNotesArrayList(notesArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
@@ -77,16 +74,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try{
+                    dbHelper.getSearch(searchText.getText().toString());
                     String value = searchText.getText().toString();
-                    notesArrayList=dbHelper.getSearch(value);
-
-                    int size = dbHelper.getSearch(value).size();
-                    Toast.makeText(MainActivity.this,"success "+String.valueOf(size) +" "+value,Toast.LENGTH_SHORT).show();
+                    int size = dbHelper.getSearch(searchText.getText().toString()).size();
+                    Toast.makeText(MainActivity.this,"success "+size +" "+value,Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     Toast.makeText(MainActivity.this,"error :"+e,Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 }

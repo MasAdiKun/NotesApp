@@ -92,11 +92,10 @@ public class DbHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public ArrayList<Notes> getSearch(String value){
         ArrayList<Notes> notesArrayList = new ArrayList<>();
+        String search ="SELECT * FROM "+TABLE_NAME +" WHERE " +KEY_TITLE+" = ? AND "+KEY_SUBTITLE+" = ?";
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor c =db.rawQuery("SELECT * FROM "+TABLE_NAME+" WHERE title='"+value+"'",null);
-        if(c.getCount() == 0){
-            getAllNotes();
-        }
+        Cursor c =db.rawQuery(search,new String[]{value});
+
         if(c.moveToFirst()){
             do{
                 Notes note= new Notes();
@@ -107,12 +106,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 note.setNoteText(c.getString(c.getColumnIndex(KEY_TEXTS)));
                 note.setColor(c.getString(c.getColumnIndex(KEY_COLORS)));
                 note.setImage(c.getBlob(c.getColumnIndex(KEY_IMAGE)));
-                notesArrayList.add(note);
             }while(c.moveToNext());
         }
         return notesArrayList;
     }
-
     //  Delete data from database
 
     public void deleteNotes(int id, Uri uri){

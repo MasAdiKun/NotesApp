@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +23,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import db.DbHelper;
 import model.Notes;
@@ -35,6 +32,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     private Activity activity;
     private DbHelper dbHelper;
     private Timer timer;
+    private List<Notes> notesSource;
     LinearLayout layoutNote;
 
     public NotesAdapter(Activity activity){
@@ -111,8 +109,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             if(notes.getColor()!=null){
                 gradientDrawable.setColor(Color.parseColor(notes.getColor()));
             }else{
-                gradientDrawable.setColor(Color.parseColor("#4C4C4C"));
+                gradientDrawable.setColor(Color.parseColor("#80171C26"));
             }
         }
     }
+
 }
