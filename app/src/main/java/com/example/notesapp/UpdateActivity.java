@@ -1,6 +1,4 @@
-package com.example.project3;
-
-import static com.example.project3.CreateActivity.getBytes;
+package com.example.notesapp;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -35,9 +33,10 @@ import db.DbHelper;
 import model.Notes;
 
 public class UpdateActivity extends AppCompatActivity {
+
     DbHelper dbHelper;
-    ImageView backButton, deleteButton, saveButton, imageNote;
-    ImageView imageColor1,imageColor2,imageColor3,imageColor4, imageColor5;
+    ImageView backButton, deleteButton, saveButton, imageNote,imageDelete;
+    ImageView imageColor1,imageColor2,imageColor3,imageColor4;
     EditText titleNote,subtitleNote,textNote;
     LinearLayout miscLayout, miscImageLayout;
     TextView dateTime;
@@ -53,9 +52,7 @@ public class UpdateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
-
         dbHelper = new DbHelper(this);
-
         backButton = findViewById(R.id.imageBack);
         deleteButton = findViewById(R.id.imageDelete);
         saveButton = findViewById(R.id.imageSave);
@@ -63,6 +60,7 @@ public class UpdateActivity extends AppCompatActivity {
         subtitleNote = findViewById(R.id.inputNoteSubtitle);
         textNote = findViewById(R.id.inputNote);
         dateTime = findViewById(R.id.textDateTime);
+        imageDelete=findViewById(R.id.deleteImgNote);
         viewSubtitleIndicator = findViewById(R.id.viewSubtitleIndicator);
         imageNote = findViewById(R.id.imgNote);
 
@@ -75,7 +73,8 @@ public class UpdateActivity extends AppCompatActivity {
         subtitleNote.setText(note.getSubtitle());
         textNote.setText(note.getNoteText());
         dateTime.setText(note.getDateTime());
-
+        selectedNoteColor= note.getColor();
+        setViewSubtitleIndicator();
 
         id = note.getId();
 
@@ -83,6 +82,7 @@ public class UpdateActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             imageNote.setImageBitmap(bitmap);
             imageNote.setVisibility(View.VISIBLE);
+            imageDelete.setVisibility(View.VISIBLE);
         }
 
         final LinearLayout miscImageLayout = findViewById(R.id.miscImageLayout);
@@ -96,6 +96,16 @@ public class UpdateActivity extends AppCompatActivity {
 //      Call note card color indicator function
         indicator();
 
+        imageDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageNote.setImageBitmap(null);
+                imageNote.setVisibility(View.GONE);
+                imageDelete.setVisibility(View.GONE);
+                bytes = null;
+                imageUri=null;
+            }
+        });
 //      Function to get date local
         dateTime.setText(
                 new SimpleDateFormat("dd MMMM yyy HH:mm", Locale.getDefault())
@@ -108,6 +118,8 @@ public class UpdateActivity extends AppCompatActivity {
                 Intent intent = new Intent(UpdateActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+                selectedNoteColor ="#37335A";
+                setViewSubtitleIndicator();
             }
         });
 
@@ -149,6 +161,8 @@ public class UpdateActivity extends AppCompatActivity {
                         Intent intent = new Intent(UpdateActivity.this,MainActivity.class);
                         startActivity(intent);
                         finish();
+                        selectedNoteColor ="#37335A";
+                        setViewSubtitleIndicator();
                     } catch (Exception e){
                         Toast.makeText(getApplicationContext(),"Error: "+e, Toast.LENGTH_SHORT).show();
                     }
@@ -156,12 +170,13 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
 
+
     }
     public void showConfirmDialog()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(UpdateActivity.this);
         builder.setTitle("Delete confirmation");
-        builder.setMessage("This NOtes will be deleted form your device");
+        builder.setMessage("This Notes will be deleted form your device");
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -201,7 +216,7 @@ public class UpdateActivity extends AppCompatActivity {
         miscLayout.findViewById(R.id.viewColor1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedNoteColor ="#80171C26";
+                selectedNoteColor ="#37335A";
                 imageColor1.setImageResource(R.drawable.ic_select);
                 imageColor2.setImageResource(0);
                 imageColor3.setImageResource(0);
@@ -264,6 +279,7 @@ public class UpdateActivity extends AppCompatActivity {
         });
     }
 
+
     public void chooseImage()
     {
         Intent intent = new Intent();
@@ -314,9 +330,9 @@ public class UpdateActivity extends AppCompatActivity {
                                 imageUri = intent.getData();
                                 imageNote.setImageURI(imageUri);
                                 imageNote.setVisibility(View.VISIBLE);
+                                imageDelete.setVisibility(View.VISIBLE);
                             }
                         }
                     }
             );
-
 }
