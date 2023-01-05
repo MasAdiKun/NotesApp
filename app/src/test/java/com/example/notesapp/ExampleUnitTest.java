@@ -1,4 +1,4 @@
-package com.example.project3;
+package com.example.notesapp;
 
 import org.junit.Test;
 

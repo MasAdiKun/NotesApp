@@ -68,7 +68,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public ArrayList<Notes> getAllNotes(){
         ArrayList<Notes> notesArrayList = new ArrayList<>();
-        String q = "SELECT * FROM " + TABLE_NAME ;
+        String q = "SELECT * FROM " + TABLE_NAME + " ORDER BY id DESC ";
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor c = sqLiteDatabase.rawQuery(q, null);
 
@@ -88,28 +88,6 @@ public class DbHelper extends SQLiteOpenHelper {
         return notesArrayList;
     }
 
-    // Get data based on search input
-    @SuppressLint("Range")
-    public ArrayList<Notes> getSearch(String value){
-        ArrayList<Notes> notesArrayList = new ArrayList<>();
-        String search ="SELECT * FROM "+TABLE_NAME +" WHERE " +KEY_TITLE+" = ? AND "+KEY_SUBTITLE+" = ?";
-        SQLiteDatabase db=this.getReadableDatabase();
-        Cursor c =db.rawQuery(search,new String[]{value});
-
-        if(c.moveToFirst()){
-            do{
-                Notes note= new Notes();
-                note.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-                note.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
-                note.setSubtitle(c.getString(c.getColumnIndex(KEY_SUBTITLE)));
-                note.setDateTime(c.getString(c.getColumnIndex(KEY_DATE)));
-                note.setNoteText(c.getString(c.getColumnIndex(KEY_TEXTS)));
-                note.setColor(c.getString(c.getColumnIndex(KEY_COLORS)));
-                note.setImage(c.getBlob(c.getColumnIndex(KEY_IMAGE)));
-            }while(c.moveToNext());
-        }
-        return notesArrayList;
-    }
     //  Delete data from database
 
     public void deleteNotes(int id, Uri uri){

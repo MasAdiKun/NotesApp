@@ -1,4 +1,4 @@
-package com.example.project3;
+package com.example.notesapp;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -29,9 +29,10 @@ import db.DbHelper;
 import model.Notes;
 
 public class CreateActivity extends AppCompatActivity {
+
     DbHelper dbHelper;
-    ImageView backButton, deleteButton, saveButton, imageNote;
-    ImageView imageColor1,imageColor2,imageColor3,imageColor4, imageColor5;
+    ImageView backButton, deleteButton, saveButton, imageNote, imageDelete;
+    ImageView imageColor1,imageColor2,imageColor3,imageColor4;
     EditText titleNote,subtitleNote,textNote;
     LinearLayout miscLayout, miscImageLayout;
     TextView dateTime;
@@ -44,7 +45,6 @@ public class CreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-
         dbHelper = new DbHelper(this);
 
 
@@ -58,8 +58,8 @@ public class CreateActivity extends AppCompatActivity {
         dateTime=findViewById(R.id.textDateTime);
         viewSubtitleIndicator=findViewById(R.id.viewSubtitleIndicator);
         imageNote = findViewById(R.id.imgNote);
-        selectedNoteColor ="#80171C26";
-
+        imageDelete= findViewById(R.id.deleteImgNote);
+        selectedNoteColor ="#37335A";
         final LinearLayout miscImageLayout = findViewById(R.id.miscImageLayout);
         miscImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +83,21 @@ public class CreateActivity extends AppCompatActivity {
                 Intent intent = new Intent(CreateActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+                selectedNoteColor ="#37335A";
+                setViewSubtitleIndicator();
             }
         });
 
+        imageDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageNote.setImageBitmap(null);
+                imageNote.setVisibility(View.GONE);
+                imageDelete.setVisibility(View.GONE);
+                bytes = null;
+                imageUri=null;
+            }
+        });
 
 //      Define function when save button clicked
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -113,9 +125,11 @@ public class CreateActivity extends AppCompatActivity {
                         note.setColor(selectedNoteColor);
                         dbHelper.addNotes(note.getTitle(),note.getSubtitle(), bytes ,note.getDateTime()
                                 ,note.getNoteText(),note.getColor() );
-                    Intent intent = new Intent(CreateActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                        Intent intent = new Intent(CreateActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        selectedNoteColor ="#37335A";
+                        setViewSubtitleIndicator();
                     } catch (Exception e){
                         Toast.makeText(getApplicationContext(),"Error: "+e, Toast.LENGTH_SHORT).show();
                     }
@@ -129,7 +143,7 @@ public class CreateActivity extends AppCompatActivity {
         GradientDrawable gradientDrawable = (GradientDrawable) viewSubtitleIndicator.getBackground();
         gradientDrawable.setColor(Color.parseColor(selectedNoteColor));
     }
-//    Function set indicator color
+    //    Function set indicator color
     private void indicator(){
         final LinearLayout miscLayout = findViewById(R.id.miscLayout);
         final ImageView imageColor1=miscLayout.findViewById(R.id.imageColor1);
@@ -144,7 +158,7 @@ public class CreateActivity extends AppCompatActivity {
         miscLayout.findViewById(R.id.viewColor1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedNoteColor ="#80171C26";
+                selectedNoteColor ="#37335A";
                 imageColor1.setImageResource(R.drawable.ic_select);
                 imageColor2.setImageResource(0);
                 imageColor3.setImageResource(0);
@@ -257,7 +271,9 @@ public class CreateActivity extends AppCompatActivity {
                                 imageUri = intent.getData();
                                 imageNote.setImageURI(imageUri);
                                 imageNote.setVisibility(View.VISIBLE);
+                                imageDelete.setVisibility(View.VISIBLE);
                             }
+
                         }
                     }
             );

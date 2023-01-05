@@ -24,19 +24,15 @@
     <color name="primarydark">#171c26</color>
     <color name="icons">#999999</color>
     <color name="textHint">#CFCFCF</color>
+    <color name="danger">#FF0000</color>
     <color name="search">#6A6A6A</color>
     <color name="bg">#0E121A</color>
     <color name="bg_2">#B3171C26</color>
     <color name="addbg">#3269FE</color>
     <color name="accent">#03DAC5</color>
-    <color name="bg_notes">#80171C26</color>
+    <color name="bg_notes">#37335A</color>
     <color name="bgfab">#DFE0E1</color>
     <color name="bgmis">#161C29</color>
     <color name="bgmain">#FEFEFE</color>
-
-
-
-
-
 
 </resources>
